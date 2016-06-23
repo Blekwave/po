@@ -1,0 +1,449 @@
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  11:56:57
+Wed Jun 12 12:06:56 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  11:56:57
+Wed Jun 12 12:07:54 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  11:56:57
+Wed Jun 12 13:23:26 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  11:56:57
+Wed Jun 12 13:23:41 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  11:56:57
+Wed Jun 12 13:24:33 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  11:56:57
+Wed Jun 12 13:25:09 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  11:56:57
+Wed Jun 12 13:27:36 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  11:56:57
+Wed Jun 12 13:27:57 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  11:56:57
+Wed Jun 12 13:32:41 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  11:56:57
+Wed Jun 12 13:33:10 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  13:45:01
+Wed Jun 12 13:46:51 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  13:45:01
+Wed Jun 12 13:51:22 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  13:45:01
+Wed Jun 12 13:57:04 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  13:45:01
+Wed Jun 12 14:10:57 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1  none   1e+100        0  -1e+100      0.1      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  13:45:01
+Wed Jun 12 14:29:55 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1  none   1e+100        0  -1e+100      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  13:45:01
+Wed Jun 12 14:36:17 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1  none   1e+100        0  -1e+100      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  13:45:01
+Wed Jun 12 14:38:30 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1  none   1e+100        0  -1e+100      0.1      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  13:45:01
+Wed Jun 12 14:41:33 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1  none   1e+100        0  -1e+100      0.1      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  13:45:01
+Wed Jun 12 15:06:20 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1  none   1e+100        0  -1e+100      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  13:45:01
+Wed Jun 12 15:19:23 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd   1e+100        3        3      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  13:45:01
+Wed Jun 12 15:32:20 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd   1e+100        3        3      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 19 2002  17:22:17
+Wed Jun 19 17:30:23 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd        3        3        3      0.1      0.1     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 19 2002  17:22:17
+Wed Jun 19 17:31:54 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd        3        3        3      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 19 2002  17:22:17
+Wed Jun 19 17:33:06 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd        3        3        3      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 19 2002  17:22:17
+Wed Jun 19 17:36:08 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd      nan      nan      nan       -8      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  09:01:41
+Thu Jun 20 09:02:09 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd        3        3        3      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  09:01:41
+Thu Jun 20 09:02:47 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd        3        3        3      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  09:01:41
+Thu Jun 20 09:21:40 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd        3        3        3      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  09:01:41
+Thu Jun 20 09:22:19 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd        3        3        3      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  10:31:00
+Thu Jun 20 10:43:46 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd        3        3        3      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  10:31:00
+Thu Jun 20 13:36:38 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  10:31:00
+Thu Jun 20 13:40:10 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  10:31:00
+Thu Jun 20 14:29:36 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd        3        3        3      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  10:31:00
+Thu Jun 20 14:33:16 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd        3        3        3      0.1      0.1     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  10:31:00
+Thu Jun 20 14:35:11 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  10:31:00
+Thu Jun 20 14:44:33 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  10:31:00
+Thu Jun 20 14:52:01 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  10:31:00
+Thu Jun 20 14:53:30 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  10:31:00
+Thu Jun 20 14:55:00 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 15:04:45 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 15:04:55 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 15:06:47 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 15:09:09 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 15:10:43 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 15:11:44 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 15:15:43 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 15:18:01 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd   1e+100        3        3      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 16:20:39 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd   1e+100        3        3      0.1      0.1     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 16:24:17 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd   1e+100        3        3      0.1      0.1     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 16:26:22 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd   1e+100        3        3      0.1      0.1     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 16:27:10 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd   1e+100        3        3      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 16:27:26 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd   1e+100        3        3      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 16:34:59 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd   1e+100        3        3      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 16:37:44 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 16:44:02 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 16:45:12 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 16:51:17 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  15:04:12
+Thu Jun 20 16:54:35 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd        3        3        3      0.0      0.0     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  17:27:48
+Thu Jun 20 17:30:02 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd        3        3        3      0.1      0.1     1 0 
+
+
+Version 0.5: LP bound only.  Build Jun 24 2002  14:53:16
+Mon Jun 24 14:55:29 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd        3        3        3      0.0      0.0     1 0 

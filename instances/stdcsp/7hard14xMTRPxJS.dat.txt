@@ -1,0 +1,42 @@
+
+
+Version 0.5: LP bound only.  Build Jun 12 2002  13:45:01
+Wed Jun 12 18:27:03 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd   1e+100       67       67     2.77     2.77     1 0 'BPP_20005008_0124x17MTRPx1cdp'
+  2 LPBnd   1e+100       39       39     3.29     3.29     1 0 'BPP_12000107_0894x5MTRPr2ppi'
+  3 LPBnd   1e+100       59       59     3.64     3.64     1 0 'BPP_20000108_0175x21MTRPr1ppix3cdp'
+  4 LPBnd   1e+100       35       35     1.39     1.39     1 0 'BPP_10000108_0257x3MTRPr1ppi'
+  5 LPBnd   1e+100       51       51     3.52     3.52     1 0 'BPP_16000108_0149x12MTRPr2ppix2cdp'
+  6 LPBnd   1e+100       63       63     3.22     3.22     1 0 'BPP_18000108_0359x12MTRPr1ppi'
+  7 LPBnd   1e+100       62       62     1.59     1.59     1 0 'BPP_18000108_0716x13MTRPr5ppi'
+
+
+Version 0.5: LP bound only.  Build Jun 20 2002  17:27:48
+Fri Jun 21 14:33:01 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd       68       67       67     3.24      2.0     1 0 'BPP_20005008_0124x17MTRPx1cdp'
+  2 LPBnd       40       39       39     3.52     2.83     1 0 'BPP_12000107_0894x5MTRPr2ppi'
+  3 LPBnd       60       59       59      4.1     2.91     1 0 'BPP_20000108_0175x21MTRPr1ppix3cdp'
+  4 LPBnd       36       35       35     2.12     1.69     1 0 'BPP_10000108_0257x3MTRPr1ppi'
+  5 LPBnd       52       51       51     3.62     2.64     1 0 'BPP_16000108_0149x12MTRPr2ppix2cdp'
+  6 LPBnd       64       63       63     3.87     2.60     1 0 'BPP_18000108_0359x12MTRPr1ppi'
+  7 LPBnd       63       62       62     2.16     1.19     1 0 'BPP_18000108_0716x13MTRPr5ppi'
+
+
+Version 0.5: LP bound only.  Build Jun 25 2002  11:18:01
+Tue Jun 25 12:13:06 2002
+
+#  status   IP_best   LPBnd0 LPB_best  time_IP  time_LPNRuns NIter  [remark]
+
+  1 LPBnd       68       67       67     4.91     1.19     1 0 'BPP_20005008_0124x17MTRPx1cdp'
+  2 LPBnd       40       39       39     3.20     1.15     1 0 'BPP_12000107_0894x5MTRPr2ppi'
+  3 LPBnd       60       59       59     3.70     1.90     1 0 'BPP_20000108_0175x21MTRPr1ppix3cdp'
+  4 LPBnd       36       35       35      1.9     0.48     1 0 'BPP_10000108_0257x3MTRPr1ppi'
+  5 LPBnd       52       51       51     4.30     1.61     1 0 'BPP_16000108_0149x12MTRPr2ppix2cdp'
+  6 LPBnd       64       63       63     4.59     1.59     1 0 'BPP_18000108_0359x12MTRPr1ppi'
+  7 LPBnd       63       62       62     1.66     0.60     1 0 'BPP_18000108_0716x13MTRPr5ppi'
