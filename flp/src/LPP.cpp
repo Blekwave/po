@@ -128,7 +128,8 @@ void LPP::loadMatrix(vector<vector<double>> m) {
 }
 
 void LPP::simplex() {
-    glp_simplex(lp, NULL);
+    int ret = glp_simplex(lp, NULL);
+    assert(ret == 0);
 }
 
 double LPP::objective() {
@@ -150,6 +151,26 @@ vector<double> LPP::dualVars() {
     }
     return out;
 
+}
+
+void LPP::integer() {
+    glp_iocp params;
+    glp_init_iocp(&params);
+    params.presolve = GLP_ON;
+    int err = glp_intopt(lp, &params);
+    assert(err == 0);
+}
+
+double LPP::intObjective() {
+    return glp_mip_obj_val(lp);
+}
+
+vector<double> LPP::intPrimalVars() {
+    vector<double> out;
+    for (int j = 1; j <= cols; j++) { // 1-based
+        out.push_back(glp_mip_col_val(lp, j));
+    }
+    return out;
 }
 
 void LPP::saveProblemInfo(const string path) {

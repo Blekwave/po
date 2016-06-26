@@ -47,6 +47,10 @@ class LPP {
         vector<double> primalVars();
         vector<double> dualVars();
 
+        void integer();
+        double intObjective();
+        vector<double> intPrimalVars();
+
         void saveProblemInfo(const string path);
 
         static void termOut(bool silent);

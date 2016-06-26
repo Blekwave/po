@@ -9,6 +9,7 @@
 
 #include <cmath>
 #include <ctime>
+#include <cassert>
 
 using std::cout;
 using std::string;
@@ -156,7 +157,6 @@ LPP FLP::initializeSub(vector<int> built_locations) {
 
 void FLP::updateSubLocations(LPP &sub, vector<int> built_locations) {
     sub.setConstantTerm(totalBuildCost(built_locations));
-
     for (int i = 0; i < data.locations; i++) {
         for (int j = 0; j < data.customers; j++) {
             // The first term below is the offset for the first m constraints
@@ -165,6 +165,18 @@ void FLP::updateSubLocations(LPP &sub, vector<int> built_locations) {
             sub.setRowBounds(constraint, LPBounds::upper, built, built);
         }
     }
+}
+
+LPP FLP::constrainedMaster(vector<double> &constants,
+        vector<vector<double>> &rows) {
+    LPP master = initializeMaster();
+    assert(constants.size() == rows.size());
+    int constraints = static_cast<int>(constants.size());
+    for (int i = 0; i < constraints; i++) {
+        master.addRow(LPBounds::lower, constants[i], constants[i]);
+        master.addConstrRow(rows[i]);
+    }
+    return master;
 }
 
 // Required data:
@@ -207,29 +219,29 @@ void FLP::solve(bool debug) {
         LPP::termOut(silent);
     }
 
-    clock_t begin = std::clock();
+    /* LPP master = initializeMaster(); */
 
-    LPP master = initializeMaster();
+    /* if (!silent) { */
+    /*     cout << "Master problem initialized.\n"; */
+    /*     master.saveProblemInfo("first_master.txt"); */
+    /* } */
 
-    if (!silent) {
-        cout << "Master problem initialized.\n";
-        master.saveProblemInfo("first_master.txt");
-    }
-
-    vector<int> initialLocations;
+    vector<int> initial_locations;
     // All 1s when capacitated
     if (CAPACITATED) {
-        initialLocations = vector<int>(data.locations, 1);
+        initial_locations = vector<int>(data.locations, 1);
     } else {
-        initialLocations = vector<int>(data.locations, 0);
-        initialLocations[0] = 1;
+        initial_locations = vector<int>(data.locations, 0);
+        initial_locations[0] = 1;
     }
 
-    LPP sub = initializeSub(initialLocations);
-    if (!silent) {
-        cout << "Subproblem initialized.\n";
-        sub.saveProblemInfo("first_sub.txt");
-    }
+    vector<int> built = initial_locations;
+
+    /* LPP sub = initializeSub(initial_locations); */
+    /* if (!silent) { */
+    /*     cout << "Subproblem initialized.\n"; */
+    /*     sub.saveProblemInfo("first_sub.txt"); */
+    /* } */
 
     master_solutions = 0;
     // total_time not initialized because it's not computed incrementally
@@ -237,6 +249,9 @@ void FLP::solve(bool debug) {
 
     double upper_bound = numeric_limits<double>::max();
     double lower_bound = numeric_limits<double>::lowest();
+
+    vector<double> constraint_constants;
+    vector<vector<double>> constraint_rows;
 
     int cycle = 0;
 
@@ -247,33 +262,70 @@ void FLP::solve(bool debug) {
             cout << "=============================\n";
         }
 
-        if (!silent) {
-            cout << "About to solve subproblem for cycle " << cycle << "\n";
-            string path = "cycle" + std::to_string(cycle) + "_sub.txt";
-            sub.saveProblemInfo(path);
+        /* if (!silent) { */
+        /*     cout << "About to solve subproblem for cycle " << cycle << "\n"; */
+        /*     string path = "cycle" + std::to_string(cycle) + "_sub.txt"; */
+        /*     sub.saveProblemInfo(path); */
+        /* } */
+
+        /* sub.simplex(); */
+        /* upper_bound = sub.objective(); */
+        /* vector<double> dual = sub.dualVars(); // u = (v, w) */
+
+        /* if (!silent) { */
+        /*     cout << "UB: " << upper_bound << "\n"; */
+        /*     cout << "Sub primal vars:\n"; */
+        /*     vector<double> primal = sub.primalVars(); */
+        /*     prettyPrintVector(primal, 10); */
+        /*     cout << "Sub dual vars:\n"; */
+        /*     prettyPrintVector(dual, 10); */
+        /* } */
+
+        /* // v_j - one for each customer */
+        /* vector<double> demand_dual(dual.begin(), */
+        /*         dual.begin() + data.customers); */
+
+        /* // w_ij - one for each location-customer pair */
+        /* vector<double> setup_dual(dual.begin() + data.customers, */
+        /*         dual.begin() + data.customers + */
+        /*         data.customers * data.locations); */
+
+        vector<double> demand_dual;
+        for (int j = 0; j < data.customers; j++) {
+            double min_cost = numeric_limits<double>::max();
+            for (int i = 0; i < data.locations; i++) {
+                if (built[i] and data.ship_costs[i][j] < min_cost){
+                    min_cost = data.ship_costs[i][j];
+                }
+            }
+            demand_dual.push_back(min_cost);
         }
 
-        sub.simplex();
-        upper_bound = sub.objective();
-        vector<double> dual = sub.dualVars(); // u = (v, w)
-
         if (!silent) {
-            cout << "UB: " << upper_bound << "\n";
-            cout << "Sub primal vars:\n";
-            vector<double> primal = sub.primalVars();
-            prettyPrintVector(primal, 10);
-            cout << "Sub dual vars:\n";
-            prettyPrintVector(dual, 10);
+            cout << "Demand dual: ";
+            prettyPrintVector(demand_dual, 10);
         }
 
-        // v_j - one for each customer
-        vector<double> demand_dual(dual.begin(),
-                dual.begin() + data.customers);
+        vector<double> setup_dual;
+        for (int i = 0; i < data.locations; i++) {
+            for (int j = 0; j < data.customers; j++) {
+                if (built[i]) {
+                    setup_dual.push_back(0);
+                } else {
+                    double gain = demand_dual[j] - data.ship_costs[i][j];
+                    if (gain > 0) {
+                        setup_dual.push_back(-gain);
+                    } else {
+                        setup_dual.push_back(0);
+                    }
+                }
+            }
+        }
 
-        // w_ij - one for each location-customer pair
-        vector<double> setup_dual(dual.begin() + data.customers,
-                dual.begin() + data.customers +
-                data.customers * data.locations);
+        if (!silent) {
+            cout << "Setup dual: ";
+            prettyPrintVector(setup_dual, 10);
+        }
 
         // New constraint
         double constant_term = 0;
@@ -293,16 +345,26 @@ void FLP::solve(bool debug) {
             constraint_row.push_back(y_coef);
         }
 
+        double ub = constant_term;
+        for (int i = 0; i < data.locations; i++) {
+            ub -= built[i] * constraint_row[1 + i];
+        }
+        upper_bound = ub;
+
+        if (!silent) {
+            cout << "UB: " << upper_bound << "\n";
+        }
+
         if (!silent) {
             cout << "New master constraint:\n";
             cout << "Constant " << constant_term << ";\n";
             prettyPrintVector(constraint_row, 10);
         }
 
+        constraint_constants.push_back(constant_term);
+        constraint_rows.push_back(constraint_row);
 
-        master.addRow(LPBounds::lower, constant_term, constant_term);
-        master.addConstrRow(constraint_row);
-
+        LPP master = constrainedMaster(constraint_constants, constraint_rows);
 
         if (!silent) {
             cout << "About to solve master for cycle " << cycle << "\n";
@@ -310,23 +372,22 @@ void FLP::solve(bool debug) {
             master.saveProblemInfo(path);
         }
 
-        master.simplex();
+        master.integer();
+        vector<double> primal = master.intPrimalVars();
 
-        lower_bound = master.objective();
+        lower_bound = master.intObjective();
         if (!silent) {
             cout << "LB: " << lower_bound << "\n";
+            cout << "Primal sol: ";
+            prettyPrintVector(primal, 10);
         }
 
         if (upper_bound - lower_bound <= PRECISION) {
-            clock_t end = std::clock();
-            total_time = double(end - begin) / CLOCKS_PER_SEC;
-
             cout << "DONE!\n";
-            printSolution(master, sub, debug);
+            /* printSolution(master, sub, debug); */
             return;
         }
 
-        vector<double> primal = master.primalVars();
         vector<int> built_locations(primal.begin() + 1, primal.end());
 
         if (!silent) {
@@ -334,7 +395,9 @@ void FLP::solve(bool debug) {
             prettyPrintVector(built_locations, 10);
         }
 
-        updateSubLocations(sub, built_locations);
+        built = built_locations;
+
+        /* updateSubLocations(sub, built_locations); */
 
         cycle++;
 

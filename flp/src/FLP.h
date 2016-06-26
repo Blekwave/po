@@ -26,6 +26,9 @@ class FLP {
     void printSolution(LPP &master, LPP &sub, bool debug);
     double totalBuildCost(vector<int> built_locations);
 
+    LPP constrainedMaster(vector<double> &constants,
+        vector<vector<double>> &rows);
+
     public:
         FLP(string title, FLPData pd);
         void printProblemData();
