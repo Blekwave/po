@@ -19,7 +19,7 @@ using std::numeric_limits;
 
 const double PRECISION = 0.001;
 
-const bool CAPACITATED = false;
+const bool CAPACITATED = true;
 
 FLP::FLP(string title, FLPData data) : title(title), data(data) {
     // Do nothing
@@ -105,54 +105,209 @@ double FLP::totalBuildCost(vector<int> built_locations) {
 
 LPP FLP::initializeSub(vector<int> built_locations) {
 
-    LPP sub(ObjDir::min);
+    LPP sub(ObjDir::max);
     sub.setConstantTerm(totalBuildCost(built_locations));
 
+    // Initialize v_j columns: one per customer, all ones in objective
+    for (int j = 0; j < data.customers; j++) {
+        sub.addCol(1, LPBounds::lower, 0, 0);
+    }
+
+    // Initialize w_ij columns: one per pair
+    // -1 in objective if i has been built, else 0
+    for (int i = 0; i < data.locations; i++) {
+        for (int j = 0; j < data.customers; j++) {
+            sub.addCol(built_locations[i] * -1, LPBounds::lower, 0, 0);
+        }
+    }
+
+    if (CAPACITATED) {
+        // Initialize alpha_i columns: one per location
+        // value equals supply for that i
+        for (int i = 0; i < data.locations; i++) {
+            sub.addCol(data.supplies[i], LPBounds::lower, 0, 0);
+        }
+
+        // Initialize beta column
+        // value equals the sum of all demands minus the supply for every
+        // built location
+        double beta_obj = 0;
+        for (double demand : data.demands) {
+            beta_obj -= demand;
+        }
+        for (int i = 0; i < data.locations; i++) {
+            if (built_locations[i]) {
+                beta_obj += data.supplies[i];
+            }
+        }
+        sub.addCol(beta_obj, LPBounds::lower, 0, 0);
+    }
+
+    // n * m constraints, for each c
+    // v_i - w_ij <= cij (not capacitated)
+    // v_i - w_ij + alpha_i < cij (capacitated)
     for (int i = 0; i < data.locations; i++) {
         for (int j = 0; j < data.customers; j++) {
             double cost = data.ship_costs[i][j];
             if (CAPACITATED) {
                 cost *= data.demands[j];
             }
-            sub.addCol(cost, LPBounds::lower, 0, 0);
-        }
-    }
 
-    for (int j = 0; j < data.customers; j++) {
-        sub.addRow(LPBounds::lower, 1, 1);
-        vector<double> row(data.locations * data.customers, 0);
-        for (int i = 0; i < data.locations; i++) {
-            row[i * data.customers + j] = 1;
-        }
-        sub.addConstrRow(row);
-    }
+            sub.addRow(LPBounds::upper, cost, cost);
 
-    for (int i = 0; i < data.locations; i++) {
-        for (int j = 0; j < data.customers; j++) {
-            int built = built_locations[i];
-            sub.addRow(LPBounds::upper, built, built);
-            vector<double> row(data.locations * data.customers, 0);
-            int col = j + i * data.customers;
-            row[col] = 1;
+            // v[m], w[n][m]
+            int columns = (data.locations + 1) * data.customers;
+            if (CAPACITATED) {
+                columns += data.locations + 1; // alpha[n] + beta[1]
+            }
+
+            vector<double> row(columns, 0);
+            row[j] = 1;
+            row[data.customers * (i + 1) + j] = -1;
+            if (CAPACITATED) {
+                row[data.customers * (data.locations + 1) + i] = 1;
+            }
             sub.addConstrRow(row);
         }
     }
 
-    if (CAPACITATED) {
-        // Capacity constraints: for each location, the amount of units sent
-        // from it must not exceed its capacity.
+    return sub;
+}
 
-        for (int i = 0; i < data.locations; i++) {
-            sub.addRow(LPBounds::upper, data.supplies[i], data.supplies[i]);
-            vector<double> cap_row(data.locations * data.customers, 0);
-            for (int j = 0; j < data.customers; j++) {
-                cap_row[i * data.customers + j] = data.ship_costs[i][j];
-            }
-            sub.addConstrRow(cap_row);
+
+LPP FLP::initializeRayGen(vector<int> built_locations, double upper_bound) {
+    LPP ray(ObjDir::max);
+
+    // Initialize v_j columns: one per customer, all ones in objective
+    for (int j = 0; j < data.customers; j++) {
+        ray.addCol(1, LPBounds::double_bound, 0, upper_bound);
+    }
+
+    // Initialize w_ij columns: one per pair
+    // -1 in objective if i has been built, else 0
+    for (int i = 0; i < data.locations; i++) {
+        for (int j = 0; j < data.customers; j++) {
+            ray.addCol(built_locations[i] * -1, LPBounds::double_bound,
+                    0, upper_bound);
         }
     }
 
-    return sub;
+    if (CAPACITATED) {
+        // Initialize alpha_i columns: one per location
+        // value equals supply for that i
+        for (int i = 0; i < data.locations; i++) {
+            ray.addCol(data.supplies[i], LPBounds::double_bound, 0,
+                    upper_bound);
+        }
+
+        // Initialize beta column
+        // value equals the sum of all demands minus the supply for every
+        // built location
+        double beta_obj = 0;
+        for (double demand : data.demands) {
+            beta_obj -= demand;
+        }
+        for (int i = 0; i < data.locations; i++) {
+            if (built_locations[i]) {
+                beta_obj += data.supplies[i];
+            }
+        }
+        ray.addCol(beta_obj, LPBounds::double_bound, 0, upper_bound);
+    }
+
+    // n * m constraints, for each c
+    // v_i - w_ij <= cost (not capacitated)
+    // v_i - w_ij + alpha_i <= cost (capacitated)
+    for (int i = 0; i < data.locations; i++) {
+        for (int j = 0; j < data.customers; j++) {
+            double cost = 0;
+            ray.addRow(LPBounds::upper, cost, cost);
+
+            // v[m], w[n][m]
+            int columns = (data.locations + 1) * data.customers;
+            if (CAPACITATED) {
+                columns += data.locations + 1; // alpha[n] + beta[1]
+            }
+
+            vector<double> row(columns, 0);
+            row[j] = 1;
+            row[data.customers * (i + 1) + j] = -1;
+            if (CAPACITATED) {
+                row[data.customers * (data.locations + 1) + i] = 1;
+            }
+            ray.addConstrRow(row);
+        }
+    }
+
+    return ray;
+}
+
+vector<double> FLP::constraintFromSub(LPP &sub, bool extreme_ray) {
+    vector<double> sub_vars = sub.primalVars();
+
+    // w_ij - one for each location-customer pair
+    vector<double> setup_vars(sub_vars.begin() + data.customers,
+            sub_vars.begin() + data.customers * (data.locations + 1));
+
+    vector<double> constraint_row{extreme_ray ? 0. : 1.}; // z
+
+    double supply_demand_var;
+    if (CAPACITATED){
+        supply_demand_var = sub_vars.back(); // beta
+    }
+
+    for (int i = 0; i < data.locations; i++) {
+        double coef = data.build_costs[i];
+        for (int j = 0; j < data.customers; j++) {
+            coef -= setup_vars[i * data.customers + j];
+        }
+
+        if (CAPACITATED) {
+            coef += data.supplies[i] * supply_demand_var;
+        }
+
+        // -coef is added because it goes to the other side of the inequality
+        constraint_row.push_back(-coef);
+    }
+
+    return constraint_row;
+}
+
+double FLP::constraintConstantFromSub(LPP &sub) {
+    vector<double> sub_vars = sub.primalVars();
+
+    // v_j - one for each customer
+    vector<double> demand_vars(sub_vars.begin(),
+            sub_vars.begin() + data.customers);
+
+    vector<double> supply_vars; // alpha[n]
+    double supply_demand_var; // beta
+    if (CAPACITATED) {
+        auto begin = sub_vars.begin() +
+            data.customers * (data.locations + 1);
+        auto end = begin + data.locations;
+        supply_vars = vector<double>(begin, end);
+        supply_demand_var = sub_vars.back();
+    }
+
+    double sum = 0;
+    for (double demand : demand_vars) {
+        sum += demand;
+    }
+
+    if (CAPACITATED) {
+        for (int i = 0; i < data.locations; i++) {
+            sum += data.supplies[i] * supply_vars[i];
+        }
+
+        double demand_sum = 0;
+        for (double demand : data.demands) {
+            demand_sum += demand;
+        }
+        sum += (-1) * demand_sum * supply_demand_var;
+    }
+
+    return sum;
 }
 
 void FLP::updateSubLocations(LPP &sub, vector<int> built_locations) {
@@ -165,18 +320,6 @@ void FLP::updateSubLocations(LPP &sub, vector<int> built_locations) {
             sub.setRowBounds(constraint, LPBounds::upper, built, built);
         }
     }
-}
-
-LPP FLP::constrainedMaster(vector<double> &constants,
-        vector<vector<double>> &rows) {
-    LPP master = initializeMaster();
-    assert(constants.size() == rows.size());
-    int constraints = static_cast<int>(constants.size());
-    for (int i = 0; i < constraints; i++) {
-        master.addRow(LPBounds::lower, constants[i], constants[i]);
-        master.addConstrRow(rows[i]);
-    }
-    return master;
 }
 
 // Required data:
@@ -219,12 +362,12 @@ void FLP::solve(bool debug) {
         LPP::termOut(silent);
     }
 
-    /* LPP master = initializeMaster(); */
+    LPP master = initializeMaster();
 
-    /* if (!silent) { */
-    /*     cout << "Master problem initialized.\n"; */
-    /*     master.saveProblemInfo("first_master.txt"); */
-    /* } */
+    if (!silent) {
+        cout << "Master problem initialized.\n";
+        master.saveProblemInfo("first_master.txt");
+    }
 
     vector<int> initial_locations;
     // All 1s when capacitated
@@ -235,13 +378,6 @@ void FLP::solve(bool debug) {
         initial_locations[0] = 1;
     }
 
-    vector<int> built = initial_locations;
-
-    /* LPP sub = initializeSub(initial_locations); */
-    /* if (!silent) { */
-    /*     cout << "Subproblem initialized.\n"; */
-    /*     sub.saveProblemInfo("first_sub.txt"); */
-    /* } */
 
     master_solutions = 0;
     // total_time not initialized because it's not computed incrementally
@@ -254,6 +390,7 @@ void FLP::solve(bool debug) {
     vector<vector<double>> constraint_rows;
 
     int cycle = 0;
+    vector<int> built = initial_locations;
 
     while (true) {
         if (!silent) {
@@ -262,97 +399,55 @@ void FLP::solve(bool debug) {
             cout << "=============================\n";
         }
 
-        /* if (!silent) { */
-        /*     cout << "About to solve subproblem for cycle " << cycle << "\n"; */
-        /*     string path = "cycle" + std::to_string(cycle) + "_sub.txt"; */
-        /*     sub.saveProblemInfo(path); */
-        /* } */
-
-        /* sub.simplex(); */
-        /* upper_bound = sub.objective(); */
-        /* vector<double> dual = sub.dualVars(); // u = (v, w) */
-
-        /* if (!silent) { */
-        /*     cout << "UB: " << upper_bound << "\n"; */
-        /*     cout << "Sub primal vars:\n"; */
-        /*     vector<double> primal = sub.primalVars(); */
-        /*     prettyPrintVector(primal, 10); */
-        /*     cout << "Sub dual vars:\n"; */
-        /*     prettyPrintVector(dual, 10); */
-        /* } */
-
-        /* // v_j - one for each customer */
-        /* vector<double> demand_dual(dual.begin(), */
-        /*         dual.begin() + data.customers); */
-
-        /* // w_ij - one for each location-customer pair */
-        /* vector<double> setup_dual(dual.begin() + data.customers, */
-        /*         dual.begin() + data.customers + */
-        /*         data.customers * data.locations); */
-
-        vector<double> demand_dual;
-        for (int j = 0; j < data.customers; j++) {
-            double min_cost = numeric_limits<double>::max();
-            for (int i = 0; i < data.locations; i++) {
-                if (built[i] and data.ship_costs[i][j] < min_cost){
-                    min_cost = data.ship_costs[i][j];
-                }
-            }
-            demand_dual.push_back(min_cost);
+        LPP sub = initializeSub(built);
+        if (!silent) {
+            cout << "About to solve subproblem for cycle " << cycle << "\n";
+            string path = "cycle" + std::to_string(cycle) + "_sub.txt";
+            sub.saveProblemInfo(path);
         }
+
+        sub.simplex();
+        vector<double> sub_vars = sub.primalVars(); // u = (v, w)
+        vector<double> x_vals = sub.dualVars();
 
         if (!silent) {
-            cout << "Demand dual: ";
-            prettyPrintVector(demand_dual, 10);
+            cout << "Sub vars:\n";
+            prettyPrintVector(sub_vars, 10);
+            cout << "X vals:\n";
+            prettyPrintVector(x_vals, 10);
         }
 
-        vector<double> setup_dual;
-        for (int i = 0; i < data.locations; i++) {
-            for (int j = 0; j < data.customers; j++) {
-                if (built[i]) {
-                    setup_dual.push_back(0);
-                } else {
-                    double gain = demand_dual[j] - data.ship_costs[i][j];
-                    if (gain > 0) {
-                        setup_dual.push_back(-gain);
-                    } else {
-                        setup_dual.push_back(0);
-                    }
-                }
+        vector<double> constraint_row;
+        double constant_term;
+
+        if (!sub.unboundedPrimal()) {
+            upper_bound = sub.objective();
+            if (!silent) {
+                cout << "Sub is bounded, UB: " << upper_bound << "\n";
             }
-        }
-
-        if (!silent) {
-            cout << "Setup dual: ";
-            prettyPrintVector(setup_dual, 10);
-        }
-
-        // New constraint
-        double constant_term = 0;
-        for (double vj : demand_dual) {
-            constant_term += vj;
-        }
-
-        vector<double> constraint_row{1}; // 1 * z
-        for (int i = 0; i < data.locations; i++) {
-            double y_coef = data.build_costs[i];
-            for (int j = 0; j < data.customers; j++) {
-                y_coef += setup_dual[i * data.customers + j];
+            constraint_row = constraintFromSub(sub);
+            constant_term = constraintConstantFromSub(sub);
+        } else {
+            if (!silent) {
+                cout << "Sub is unbounded, solving extreme ray problem\n";
             }
-            y_coef *= -1; // bring it to the other side of the inequality
-                          // z >= c + a_1y_1 + a_2y_2 + ... + a_iy_i
-                          // z - a_1y_1 - a_2y_2 - ... - a_iy_i >= c
-            constraint_row.push_back(y_coef);
-        }
+            LPP ray = initializeRayGen(built, 10000000);
+            ray.simplex();
 
-        double ub = constant_term;
-        for (int i = 0; i < data.locations; i++) {
-            ub -= built[i] * constraint_row[1 + i];
-        }
-        upper_bound = ub;
+            if (!silent) {
+                cout << "Objective: " << ray.objective() << "\n";
+                vector<double> ray_primal = ray.primalVars();
+                cout << "Ray primal vars: ";
+                prettyPrintVector(ray_primal, 10);
+                vector<double> ray_dual = ray.dualVars();
+                cout << "Ray dual vars: ";
+                prettyPrintVector(ray_dual, 10);
+                string path = "cycle" + std::to_string(cycle) + "_ray.txt";
+                ray.saveProblemInfo(path);
+            }
 
-        if (!silent) {
-            cout << "UB: " << upper_bound << "\n";
+            constraint_row = constraintFromSub(ray, true);
+            constant_term = 0;
         }
 
         if (!silent) {
@@ -361,10 +456,8 @@ void FLP::solve(bool debug) {
             prettyPrintVector(constraint_row, 10);
         }
 
-        constraint_constants.push_back(constant_term);
-        constraint_rows.push_back(constraint_row);
-
-        LPP master = constrainedMaster(constraint_constants, constraint_rows);
+        master.addRow(LPBounds::lower, constant_term, constant_term);
+        master.addConstrRow(constraint_row);
 
         if (!silent) {
             cout << "About to solve master for cycle " << cycle << "\n";
@@ -397,19 +490,6 @@ void FLP::solve(bool debug) {
 
         built = built_locations;
 
-        /* updateSubLocations(sub, built_locations); */
-
         cycle++;
-
-        /* vector<double> best_costs; // v_j */
-        /* for (int j = 0; j < data.customers; j++) { */
-        /*     double best = data.ship_costs[0][j]; */
-        /*     for (int i = 1; i < data.locations; i++) { */
-        /*         if (data.ship_costs[i][j] < best) { */
-        /*             best = data.ship_costs[i][j]; */
-        /*         } */
-        /*     } */
-        /*     best_costs.push_back(best); */
-        /* } */
     }
 }

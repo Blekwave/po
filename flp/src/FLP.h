@@ -22,12 +22,13 @@ class FLP {
 
     LPP initializeMaster();
     LPP initializeSub(vector<int> built_locations);
+    LPP initializeRayGen(vector<int> built_locations, double upper_bound);
     void updateSubLocations(LPP &sub, vector<int> built_locations);
     void printSolution(LPP &master, LPP &sub, bool debug);
     double totalBuildCost(vector<int> built_locations);
 
-    LPP constrainedMaster(vector<double> &constants,
-        vector<vector<double>> &rows);
+    vector<double> constraintFromSub(LPP &sub, bool extreme_ray = 0);
+    double constraintConstantFromSub(LPP &sub);
 
     public:
         FLP(string title, FLPData pd);

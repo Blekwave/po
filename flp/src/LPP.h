@@ -46,6 +46,7 @@ class LPP {
         double objective();
         vector<double> primalVars();
         vector<double> dualVars();
+        bool unboundedPrimal();
 
         void integer();
         double intObjective();

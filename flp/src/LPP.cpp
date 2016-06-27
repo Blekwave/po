@@ -3,6 +3,7 @@
 #include <glpk.h>
 #include <cassert>
 #include <vector>
+#include <iostream>
 
 using std::vector;
 
@@ -151,6 +152,10 @@ vector<double> LPP::dualVars() {
     }
     return out;
 
+}
+
+bool LPP::unboundedPrimal() {
+    return glp_get_dual_stat(lp) == GLP_NOFEAS;
 }
 
 void LPP::integer() {
